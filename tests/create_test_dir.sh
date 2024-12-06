@@ -4,7 +4,7 @@
 threshold=20  # 20 MB
 
 # Create a main directory
-main_dir="data"
+main_dir="data/input"
 mkdir -p "$main_dir"
 
 # Function to create subdirectories with test files
@@ -17,17 +17,15 @@ create_subdir() {
     mkdir -p "$subdir"
     
     # Create test files to fill the subdirectory to the specified size
-    file_size=$((size_mb / 10))  # Divide the total size into 10 files
-    for j in {1..10}; do
+    file_size=$((size_mb / 100))  # Divide the total size into 10 files
+    for j in {1..100}; do
         dd if=/dev/zero of="$subdir/test_file_$j" bs=1M count="$file_size"  # Create files of specified size
     done
 }
 
 # Create subdirectories with varying sizes
-create_subdir "subdir" 15 "under_threshold"  # 15 MB, under threshold
-create_subdir "subdir" 25 "over_threshold"   # 25 MB, over threshold
-create_subdir "subdir" 20 "under_threshold"  # 10 MB, under threshold
-create_subdir "subdir" 30 "over_threshold"   # 30 MB, over threshold
-create_subdir "subdir" 5 "under_threshold"   # 5 MB, under threshold
+create_subdir "subdir" 2000 "around"  # 10 MB, under threshold
+create_subdir "subdir" 2200 "over"   # 30 MB, over threshold
+create_subdir "subdir" 50 "under"   # 5 MB, under threshold
 
 echo "Test directory structure created in '$main_dir'"
